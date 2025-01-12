@@ -1,0 +1,79 @@
+<div class="card p-4">
+    <form #signUp = "ngForm" (ngSubmit)="onFormSubmit()">
+        <div ngModelGroup = "userInfo">
+            <div class="form-group">
+                <label for="username">User Name *</label>
+                <input
+                name = "username"
+                pattern="[a-zA-Z]+"
+                required ngModel #username = "ngModel" type="text" class="form-control" id="username">
+
+                <em 
+                *ngIf="username.invalid && username.touched && username.hasError('required')"
+                class="text-danger">Username is Required</em>
+                <em 
+                *ngIf="username.hasError('pattern')"
+                class="text-danger">Invalid User Name.</em>
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID *</label>
+                <input
+                name="email"
+                pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$"
+                required ngModel #email = "ngModel" type="text" class="form-control" id="email">
+                <em 
+                *ngIf="email.invalid && email.touched && email.hasError('required')"
+                class="text-danger">Email is Required</em>
+                <em 
+                *ngIf="email.hasError('pattern')"
+                class="text-danger">Invalid Email Id {{"(example@gmail.com)"}}</em>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="isSubscribed">
+                <input ngModel type="checkbox" name="isSubscribed" id="isSubscribed" >
+                Notifications 
+            </label>
+        </div>
+        <div class="form-group"
+        *ngFor="let mode of moc">
+            <label   [for]="mode.id">
+                <input [value]="mode.moCommunication" ngModel type="radio" name="moc" 
+                [id]="mode.id">{{mode.moCommunication}}</label>
+          
+        </div>
+       <div class="form-group">
+        <label for="question">Secret Question</label>
+        <select ngModel required name="question" id="question" class="form-control">
+            <option selected disabled value="">Select Question</option>
+            <option value="sport">Which is your favorite sport?</option>
+            <option value="food">Which is your favorite Food?</option>
+        </select>
+       </div>
+       <div class="form-group">
+        <label for="answer">Answer</label>
+        <input name="answer" required type="text" ngModel class="form-control" id="answer">
+       </div>
+        <div class="form-group">
+            <label for="userId">User Id</label>
+            <select required ngModel class="form-control" name="userId" id="userId">
+                <option 
+                *ngFor="let val of [1,2,3,4,5,6,7,8,9,10]"
+                [value]="val">{{val}}</option>
+            </select>
+        </div>
+    
+        <button
+        [disabled]="signUp.invalid"
+        type="submit" class="btn btn-outline-primary w-100">Sign Up</button>
+    </form>
+    
+</div>
+<hr>
+<button 
+(click) = "onBtnClick()"
+class="btn btn-primary">Patch Data</button>
+
+<hr>
+<p>{{signUp.value | json}}</p>
